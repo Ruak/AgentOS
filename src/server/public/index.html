@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgentOS Workspace</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">AgentOS</p>
+        <h1>把一个目录交给 Agent 团队</h1>
+        <p class="subtle">选择工作目录，描述任务，AgentOS 会在该目录内检索、执行并交付结果。</p>
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span id="runState">待命</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="hero-panel">
+        <form id="taskForm" class="task-form">
+          <label>
+            <span>工作目录</span>
+            <input id="workspacePath" name="workspacePath" placeholder="例如 C:\Users\huangdan\Desktop\my-project" />
+          </label>
+
+          <label>
+            <span>你希望 AgentOS 完成什么？</span>
+            <textarea id="taskInput" name="taskInput">阅读这个目录，找出 AgentOS PRD 相关内容，并输出一份简明总结。</textarea>
+          </label>
+
+          <div class="run-row">
+            <label>
+              <span>运行模式</span>
+              <select id="runtimeSelect">
+                <option value="mock">离线演示</option>
+                <option value="deepseek">DeepSeek</option>
+              </select>
+            </label>
+            <button id="runTask" type="submit">开始运行</button>
+          </div>
+
+          <details class="advanced">
+            <summary>高级设置</summary>
+            <div class="advanced-grid">
+              <label>
+                <span>Agent</span>
+                <select id="agentSelect"></select>
+              </label>
+              <label>
+                <span>新 Agent 名称</span>
+                <input id="agentName" value="Workspace Operator" />
+              </label>
+              <label class="wide">
+                <span>System Prompt</span>
+              <textarea id="systemPrompt">You are an AgentOS worker process. The user-selected working directory is mounted at /workspace. Inspect the workspace, read relevant files, make permitted edits, run allowed verification commands when useful, then deliver a concise summary of what changed and any remaining risks.</textarea>
+              </label>
+              <div class="permission-box">
+                <strong>权限</strong>
+                <label class="check"><input type="checkbox" id="knowledgePermission" checked /> 允许读取工作目录知识</label>
+                <label class="check"><input type="checkbox" id="writePermission" /> 允许写入工作目录文件</label>
+                <label class="check"><input type="checkbox" id="commandPermission" /> 允许运行验证命令</label>
+                <button id="createAgent" type="button">创建新 Agent</button>
+              </div>
+            </div>
+          </details>
+        </form>
+      </section>
+
+      <section class="summary-grid">
+        <article class="metric">
+          <strong id="agentCount">0</strong>
+          <span>可用 Agent</span>
+        </article>
+        <article class="metric">
+          <strong id="eventCount">0</strong>
+          <span>实时事件</span>
+        </article>
+        <article class="metric">
+          <strong id="activeRun">尚未开始</strong>
+          <span>当前任务</span>
+        </article>
+      </section>
+
+      <section class="two-column">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>运行进度</h2>
+            <button id="clearEvents" type="button">清空</button>
+          </div>
+          <div id="eventLog" class="timeline"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>交付结果</h2>
+            <button id="loadResult" type="button">刷新结果</button>
+          </div>
+          <div id="resultBox" class="markdown-result">结果会显示在这里，并写入工作目录的 .agentos/runs/ 下。</div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>继续引导</h2>
+          <button id="sendGuidance" type="button">发送引导</button>
+        </div>
+        <label>
+          <span>任务运行中会作为即时指导；任务完成后可作为后续修改任务继续运行</span>
+          <textarea id="guidanceInput" placeholder="例如：请优先做成可打开的网页原型；界面更适合业务人员；增加数据库查询配置示例。"></textarea>
+        </label>
+        <button id="runFollowup" type="button">作为后续修改运行</button>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

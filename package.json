@@ -1,0 +1,15 @@
+{
+  "name": "agentos",
+  "version": "0.1.0",
+  "description": "A minimal AgentOS microkernel for managed agents, syscall tools, context cache, and mounted knowledge.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node --experimental-strip-types --experimental-transform-types --check src/examples/single-agent.ts && node --experimental-strip-types --experimental-transform-types --check src/server/server.ts",
+    "example:single": "node --experimental-strip-types --experimental-transform-types src/examples/single-agent.ts",
+    "console": "node --experimental-strip-types --experimental-transform-types src/server/server.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
